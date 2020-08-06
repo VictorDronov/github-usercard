@@ -36,8 +36,25 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
+const arrayOfPeople = [
+'https://api.github.com/users/luishrd',
+'https://api.github.com/users/bigknell',
+'https://api.github.com/users/justsml',
+'https://api.github.com/users/dustinmyers',
+'https://api.github.com/users/tetondan',
+];
+for(let i = 0; i<arrayOfPeople.length; i++){
+  // console.log(arrayOfPeople[i])
+  axios.get(arrayOfPeople[i])
+.then(request =>{
+  const makingCard = request.data
+    const newCard = personCard(makingCard)
+    attachmentPoint.appendChild(newCard)
+})
+.catch(error =>{
+  console.log('fail')
+})
+}
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -68,7 +85,7 @@ function personCard(userData){
   const usersName = document.createElement('p')
   const location = document.createElement('p')
   const profile = document.createElement('p')
-  const urlToProfile = document.createElement('a')
+  const urlToProfile = document.createElement('A')
   const followers = document.createElement('p')
   const following = document.createElement('p')
   const bio = document.createElement('p')
@@ -79,10 +96,11 @@ function personCard(userData){
   cardInfo.appendChild(usersName)
   cardInfo.appendChild(location)
   cardInfo.appendChild(profile)
-  profile.appendChild(urlToProfile)
+  // profile.appendChild(urlToProfile)
   cardInfo.appendChild(followers)
   cardInfo.appendChild(following)
   cardInfo.appendChild(bio)
+  // console.log(card)
 // Assigning classes
   card.classList.add('card')
   cardInfo.classList.add('card-info')
@@ -93,8 +111,10 @@ function personCard(userData){
   userNameTitle.textContent = userData.login
   usersName.textContent = userData.name
   location.textContent = `Location: ${userData.location}`
-  profile.textContent = 'Profile'
-  urlToProfile.href = userData.url
+  profile.textContent = 'Profile: '
+  profile.appendChild(urlToProfile)
+  urlToProfile.href = userData.html_url
+  urlToProfile.textContent = userData.html_url
   followers.textContent = `Followers: ${userData.followers}`
   following.textContent = `Followers: ${userData.following}`
   bio.textContent = `Bio: ${userData.bio}`
