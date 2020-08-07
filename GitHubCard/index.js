@@ -116,18 +116,27 @@ function personCard(userData){
   urlToProfile.href = userData.html_url
   urlToProfile.textContent = userData.html_url
   followers.textContent = `Followers: ${userData.followers}`
-  following.textContent = `Followers: ${userData.following}`
+  following.textContent = `Following: ${userData.following}`
   bio.textContent = `Bio: ${userData.bio}`
 
   return card
 }
+// stretch here
+axios.get('https://api.github.com/users/tetondan/followers')
+.then(requestdata=>{
+  let arrayOfFollowers = requestdata.data
+  arrayOfFollowers.forEach(person =>{
+    const newCard = personCard(person)
+    attachmentPoint.appendChild(newCard)
+  })
+})
 
 axios.get('https://api.github.com/users/Victordronov')
 .then(request =>{
   const makingCard = request.data
     const newCard = personCard(makingCard)
     attachmentPoint.appendChild(newCard)
-  console.log('success')
+  // console.log('success')
 })
 .catch(error =>{
   console.log('fail')
